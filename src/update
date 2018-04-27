@@ -1,7 +1,7 @@
 local shell = require("shell")
 local term = require("term") 
 local applications = {
-		{ "https://raw.githubusercontent.com/AsianIncest/OC/411d66833025802cd019ed8c8807c072e7ddfa6b/src/smarthome.lua", "smarthome.lua" },
+		{ "https://github.com/AsianIncest/OC/raw/master/src/smarthome.lua", "smarthome.lua" },
         { "https://github.com/AsianIncest/OC/raw/master/src/update", "update" },
 		{ "https://github.com/AsianIncest/OC/raw/master/src/gpu.lua", "gpu.lua" },
 }
