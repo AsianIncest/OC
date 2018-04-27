@@ -1,0 +1,7 @@
+local shell = require("shell")
+local term = require("term") 
+print("Удаляю старую версию")
+shell.execute("rm -f smarthome.lua")
+shell.execute('wget "http://raw.githubusercontent.com/AsianIncest/OC/master/src/smarthome.lua"')
+term.clear()
+process.load("smarthome.lua")
