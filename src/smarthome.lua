@@ -1,4 +1,10 @@
-local rs = component.redstone
+local component = require("component")
+local sides = require("sides")
+local colors = require("colors")
+local rs = component.redstone -- get primary redstone component
+print(rs.getInput(sides.back))
+rs.setBundledOutput(sides.bottom, colors.green, rs.getBundledInput(sides.top, colors.red))
+
 local term = require("term")
 b1p=0.0001
 b1n=0.0001
