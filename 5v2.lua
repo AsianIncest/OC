@@ -59,6 +59,14 @@ local bat_max_capacity
 -- таблица с батарейками
 local all_bat = {}
 local sX, sY = 100, 30
+
+local buffer_out_now = 0
+local buffer_in_now = 0
+
+local buffer_average_input = {}
+local buffer_average_output = {}
+
+local flag_statistic_ok = false
 --------------------------------------------------------------------------
 function init() --[[
 	Подключает компоненты и выполняет настройку 
@@ -89,10 +97,6 @@ function init() --[[
 	end
 
 	ic = com.inventory_controller
-	
-	local f, msg = pcall(initBat)
-	if DBG then print(">> initBat.. ", f, msg) end
-	-- пауза после инициализации
 	if DBG then os.sleep(1) end
 end
 
@@ -104,41 +108,37 @@ function final()--[[
 	os.exit()
 end
 --------------------------------------------------------------------------
-function getBat()--[[
-	Считывает инфу по батарейкам
-	--]]
-	bat_total_capacity = 0
-	bat_max_capacity = 0
-	for i = 1, #all_bat do
-		bat_total_capacity = bat_total_capacity + all_bat[i].charge
-		bat_max_capacity = bat_max_capacity + all_bat[i].maxCharge
-	end
-end
 
---------------------------------------------------------------------------
-function initBat()--[[
-	Перебор всех батареек и запись в массив
-	--]]
-	if DBG then print(">> Проверяю слоты в буфере..") end
+function getBat()
+	for address, componentType in com.list() do 
+		if string.find(componentType,'battery') ~= nil then
+			bat = com.proxy(address)
+			break
+		end
+	end
+	
 	for i = 1,16 do
 		local _bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
 		if _bat then
 			-- для другого буфера надо будет поправить ..
 			if _bat.name == "IC2:itemBatLamaCrystal" then
-				if DBG then print(">> Слот [", i, "]: IC2:itemBatLamaCrystal") end
 				bat_count = bat_count + 1
 				all_bat[bat_count] = _bat
 			end
 		else
-			if DBG then print(">> Слот [", i, "]: ---------------") end
-			all_bat[i] = nil
+			break
 		end
 	end
 	
-	if DBG then print(">> Итог: " .. bat_count .. " батареек") end
-	if DBG then print(">> Wait 2 sec") end
-	if DBG then os.sleep(3) end
+
+	for i = 1, #all_bat do
+		bat_total_capacity = (bat_total_capacity or 0) + all_bat[i].charge
+		bat_max_capacity = (bat_max_capacity or 0) + all_bat[i].maxCharge
+	end
+	
+	buffer_in_now = bat.getAverageElectricInput()
+	buffer_out_now = bat.getAverageElectricOutput()
 end
 
 --------------------------------------------------------------------------
@@ -154,6 +154,9 @@ function main()--[[
 	--]]
 	local sec = 72
 	local timer1 = os.time()
+	local counter = 0
+	-- флаг говорит что статистика готова
+	
 
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
@@ -162,26 +165,18 @@ function main()--[[
 			--]]
 		if os.time() - timer1 >= 2 * sec then
 			getBat()
-			if DBG then print("BTC " .. bat_total_capacity) end
-			if DBG then print("BTM " .. bat_max_capacity) end
-			if bat_total_capacity and bat_max_capacity then
-				local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
-				gpu.set(1,29, "BTC " .. bat_total_capacity)
-				gpu.set(1,30, "BMC " .. bat_max_capacity)
+			counter = counter + 1
+			if counter <= 30  then
+				buffer_average_input[counter] = buffer_in_now
+				buffer_average_output[counter] = buffer_out_now
+			elseif flag_statistic_ok == false then
+				flag_statistic_ok = true
+				counter = 0
 			end
 			
-			CLS()
-			--assert(type(proc) == "number")
-			if DBG then print(">> Type proc: ", type(proc)) end
-			if proc then
-				gpu.set(1,1, "Заряд: " .. proc .. "%")
-			else
-				gpu.set(1,1, "баг с зарядом")
-			end
-			
+			timer1 = os.time()
 		end
 
-		gpu.set(50,30, "VERSION " .. VER .. "#" .. REV)
 
 		-- NOOP 5 тиков, чтобы не висло
 		os.sleep(5/20)
@@ -190,6 +185,21 @@ function main()--[[
 	
 end
 
+function buffer_calc_average_input()
+	local res = 0
+	for i = 1, #buffer_average_input do
+		res = (res + buffer_average_input[i]) / 2
+	end
+	return math.floor(res + 0.5)
+end
+
+function buffer_calc_average_output()
+	local res = 0
+	for i = 1, #buffer_average_output do
+		res = (res + buffer_average_output[i]) / 2
+	end
+	return math.floor(res + 0.5)
+end
 -- безопасный запуск функций, при ошибке програ продолжает работать
 -- первый возвращаемый параметр - это флаг успеха
 -- второй - описание ошибки или nil
