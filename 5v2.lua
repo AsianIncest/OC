@@ -32,13 +32,18 @@ local red = 1
 local bat = 1
 -- включить генератор
 local genOn = 1
--- ружим отладки
+-- контролёр инвентаря
 local ic = 1
+-- ружим отладки
 local DBG = true
+-- сколько батареек
 local bat_count = 0
+-- текущая ёмкость
 local bat_total_capacity = 0
+-- полная ёмкость
 local bat_max_capacity = 0
 
+local sX, sY = 100, 30
 --------------------------------------------------------------------------
 function init() --[[
 	Подключает компоненты и выполняет настройку 
@@ -46,6 +51,9 @@ function init() --[[
 	computer = require("computer")
 	com = require("component")
 	gpu = com.gpu
+	-- выставим разрешение дисплея
+	gpu.setResolution(sX, sY)
+	-- стороны света (bottom, top, west, east, north, south)
 	sides = require('sides')
 	red = com.redstone
 	genOn = false
@@ -73,6 +81,12 @@ function init() --[[
 	if DBG then os.sleep(5) end
 end
 
+function final()--[[
+	деинициализация
+	--]]
+	gpu.setResolution(160, 50)
+	os.exit()
+end
 --------------------------------------------------------------------------
 function getBat()--[[
 	Считывает инфу по батарейкам
@@ -83,6 +97,7 @@ function getBat()--[[
 		local bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
 		if bat then
+			-- для другого буфера надо будет поправить ..
 			if bat.name == "IC2:itemBatLamaCrystal" then
 				bat_count = bat_count + 1
 				bat_total_capacity = bat_total_capacity + bat.charge
@@ -93,20 +108,31 @@ function getBat()--[[
 end
 
 --------------------------------------------------------------------------
-function main()
-	local proc = bat_total_capacity / bat_max_capacity * 100
-	print(proc, "%")
-	os.sleep(10)
+function main()--[[
+	главная функция типа как в С
+	--]]
+	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
+	repeat
+		local proc = bat_total_capacity / bat_max_capacity * 100
+		gpu.fill(1,1, 1, sY, ' ')
+		gpu.fill(1,2, 1, sY, ' ')
+		gpu.set(1,1,"Заряд:")
+		gpu.set(1,2,"       " .. proc .. "%")
+		os.sleep(2)
+	until false
 	os.exit()
 	
 end
 
+-- безопасный запуск функций, при ошибке програ продолжает работать
+-- первый возвращаемый параметр - это флаг успеха
+-- второй - описание ошибки или nil
 local r, msg = pcall(init)
 if DBG then print(">> inint .. ", r, msg) end
 
 local f, msg = pcall(main)
 if DBG then print(">> main .. ", f, msg) end
 
-print(msg)
+final()
 
 
