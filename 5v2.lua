@@ -133,8 +133,8 @@ function getBat()
 	
 
 	for i = 1, #all_bat do
-		bat_total_capacity = (bat_total_capacity or 0) + all_bat[i].charge
-		bat_max_capacity = (bat_max_capacity or 0) + all_bat[i].maxCharge
+		bat_total_capacity = (bat_total_capacity or 0) + (all_bat[i].charge or 0)
+		bat_max_capacity = (bat_max_capacity or 0) + (all_bat[i].maxCharge or 0)
 	end
 	
 	buffer_in_now = bat.getAverageElectricInput()
