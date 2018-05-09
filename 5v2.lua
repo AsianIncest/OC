@@ -78,10 +78,13 @@ function getBat()--[[
 	for i = 1,16 do
 		if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
-		if bat.name == "IC2:itemBatLamaCrystal" then
-			bat_count = bat_count + 1
-			bat_total_capacity = bat_total_capacity + bat.charge
-			bat_max_capacity = bat_max_capacity + bat.maxCharge
+		-- если слот пустой bat=nil !
+		if not bat then
+			if bat.name == "IC2:itemBatLamaCrystal" then
+				bat_count = bat_count + 1
+				bat_total_capacity = bat_total_capacity + bat.charge
+				bat_max_capacity = bat_max_capacity + bat.maxCharge
+			end
 		end
 	end
 end
