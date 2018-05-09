@@ -55,6 +55,7 @@ function init() --[[
 		if string.find(componentType,'battery') ~= nil then
 			bat = com.proxy(address)
 			break
+		end
 	end
 
 
