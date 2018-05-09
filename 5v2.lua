@@ -75,7 +75,7 @@ function getBat()--[[
   --]]
   
   for i = 1,16 do
-    if DBG then print(">> батарейка#, i)
+    if DBG then print(">> батарейка#", i)
     local bat = ic.getStackInSlot(sides.top, i)
     if bat.name == "IC2:itemBatLamaCrystal" then
       bat_count = bat_count + 1
