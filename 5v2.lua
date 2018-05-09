@@ -123,7 +123,7 @@ function getBat()
 		if _bat then
 			-- для другого буфера надо будет поправить ..
 			if _bat.name == "IC2:itemBatLamaCrystal" then
-				bat_count = bat_count + 1
+				bat_count = (bat_count or 1) + 1
 				all_bat[bat_count] = _bat
 			end
 		else
