@@ -49,7 +49,8 @@ local bat_count = 0
 local bat_total_capacity = 0
 -- полная ёмкость
 local bat_max_capacity = 0
-
+-- таблица с батарейками
+local all_bat = {}
 local sX, sY = 100, 30
 --------------------------------------------------------------------------
 function init() --[[
@@ -82,8 +83,8 @@ function init() --[[
 
 	ic = com.inventory_controller
 	
-	local f, msg = pcall(getBat)
-	if DBG then print(">> getBat.. ", f, msg) end
+	local f, msg = pcall(initBat)
+	if DBG then print(">> initBat.. ", f, msg) end
 	-- пауза после инициализации
 	if DBG then os.sleep(5) end
 end
@@ -99,6 +100,18 @@ end
 function getBat()--[[
 	Считывает инфу по батарейкам
 	--]]
+	bat_total_capacity = 0
+	bat_max_capacity = 0
+	for i in #all_bat do
+		bat_total_capacity = bat_total_capacity + bat.charge
+		bat_max_capacity = bat_max_capacity + bat.maxCharge
+	end
+end
+
+--------------------------------------------------------------------------
+function initBat()--[[
+
+	--]]
 	for i = 1,16 do
 		--if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
@@ -107,8 +120,7 @@ function getBat()--[[
 			-- для другого буфера надо будет поправить ..
 			if bat.name == "IC2:itemBatLamaCrystal" then
 				bat_count = bat_count + 1
-				bat_total_capacity = bat_total_capacity + bat.charge
-				bat_max_capacity = bat_max_capacity + bat.maxCharge
+				all_bat[bat_count] = bat
 			end
 		end
 	end
