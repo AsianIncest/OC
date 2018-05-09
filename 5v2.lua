@@ -41,9 +41,9 @@ local bat_max_capacity = 0
 
 --------------------------------------------------------------------------
 function init() --[[
-  Подключает компоненты и выполняет настройку 
-  --]]
-  computer = require("computer");
+	Подключает компоненты и выполняет настройку 
+	--]]
+	computer = require("computer");
 	com = require("component")
 	gpu = com.gpu
 	sides = require('sides')
@@ -51,55 +51,56 @@ function init() --[[
 	genOn = false
 	-- ищем первый попавшийся буфер из списка компонентов
 	for address, componentType in com.list() do 
-	  if DBG then print(address, componentType) end
+		if DBG then print(address, componentType) end
 		if string.find(componentType,'battery') ~= nil then
 			bat = com.proxy(address)
 			break
-		end
 	end
-	
+
+
 	if bat == 1 then
 		print("#Ёбана рот цыгане буфер спиздили!")
 		print(" иди ищи нахуй")
 		os.exit()
 	end
-	
-  ic = com.inventory_controller
-  -- пауза после инициализации
-  if DBG then os.sleep(5) end
+
+	ic = com.inventory_controller
+	-- пауза после инициализации
+	if DBG then os.sleep(5) end
 end
 
 --------------------------------------------------------------------------
 function getBat()--[[
-  Считывает инфу по батарейкам
-  --]]
-  
-  for i = 1,16 do
-    if DBG then print(">> ", i) end
-    local bat = ic.getStackInSlot(sides.top, i)
-    if bat.name == "IC2:itemBatLamaCrystal" then
-      bat_count = bat_count + 1
-      bat_total_capacity = bat_total_capacity + bat.charge
-      bat_max_capacity = bat_max_capacity + bat.maxCharge
-     end
-   end
+	Считывает инфу по батарейкам
+	--]]
+
+	for i = 1,16 do
+		if DBG then print(">> ", i) end
+		local bat = ic.getStackInSlot(sides.top, i)
+		if bat.name == "IC2:itemBatLamaCrystal" then
+			bat_count = bat_count + 1
+			bat_total_capacity = bat_total_capacity + bat.charge
+			bat_max_capacity = bat_max_capacity + bat.maxCharge
+		end
+	end
 end
-  
+
 --------------------------------------------------------------------------
 function main()
-  getBat()
-  print(bat_count, bat_total_capacity, bat_max_capacity)
-  os.sleep(10)
-  os.exit()
- end
-
-local r, msg = pcall(init)
-if not r then 
-	print(msg)
+	local r, msg = pcall(init)
+	if DBG then print(">> inint .. ", r, msg) end
+	getBat()
+	print(bat_count, bat_total_capacity, bat_max_capacity)
+	os.sleep(10)
 	os.exit()
+	
 end
 
 
 
 local f, msg = pcall(main)
-print(f, msg)
+if DBG then print(">> main .. ", f, msg) end
+
+
+
+
