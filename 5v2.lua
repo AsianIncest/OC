@@ -95,6 +95,7 @@ function main()
 	if DBG then print(">> inint .. ", r, msg) end
 	getBat()
 	print(bat_count, bat_total_capacity, bat_max_capacity)
+	print(bat_max_capacity/bat_total_capacity*100,"%")
 	os.sleep(10)
 	os.exit()
 	
