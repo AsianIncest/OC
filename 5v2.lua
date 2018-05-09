@@ -154,6 +154,7 @@ function main()--[[
 	--]]
 	local sec = 72
 	local timer1 = os.time()
+	local timer2 = os.time()
 	local counter = 0
 	-- флаг говорит что статистика готова
 	
@@ -176,8 +177,11 @@ function main()--[[
 			
 			timer1 = os.time()
 		end
-
-
+		
+		if os.time - timer2 >= 5 * sec then
+			local proc = math.floor((bat_total_capacity / bat_max_capacity * 100) + 0.5)
+			print("emkost", proc .. "%")
+		end
 		-- NOOP 5 тиков, чтобы не висло
 		os.sleep(5/20)
 	until false
