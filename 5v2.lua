@@ -118,7 +118,7 @@ end
 function initBat()--[[
 	Перебор всех батареек и запись в массив
 	--]]
-	all_bat = {}
+	all_bat = nil
 	for i = 1,16 do
 		if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
@@ -167,7 +167,7 @@ function main()--[[
 		--[[
 			Раз в 30 секунд пересчитываем батарейки
 			--]]
-		if os.time() - timer1 >= 30 * sec then
+		if os.time() - timer1 >= 10 * sec then
 			initBat()
 			getBat()
 			CLS()
