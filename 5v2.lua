@@ -104,6 +104,7 @@ function final()--[[
 	os.exit()
 end
 --------------------------------------------------------------------------
+--- new brench
 function getBat()--[[
 	Считывает инфу по батарейкам
 	--]]
@@ -140,7 +141,18 @@ function initBat()--[[
 	if DBG then print(">> Wait 2 sec") end
 	if DBG then os.sleep(3) end
 end
-
+initBat()
+local tmr1 = os.time()
+repeat 
+	getBat()
+	if (os.time() - tmr1) > (3 * 72) then
+		CLS()
+		print("battery total ", bat_total_capacity)
+		print("battery max ", bat_max_capacity)
+		tmr1 = os.time()
+	end
+	os.sleep(1/5)
+until false
 --------------------------------------------------------------------------
 function CLS()--[[
 	очистка дисплея
@@ -193,12 +205,12 @@ end
 -- безопасный запуск функций, при ошибке програ продолжает работать
 -- первый возвращаемый параметр - это флаг успеха
 -- второй - описание ошибки или nil
-local r, msg = pcall(init)
-if DBG then print(">> inint .. ", r, msg) end
+-- local r, msg = pcall(init)
+-- if DBG then print(">> inint .. ", r, msg) end
 
-local f, msg = pcall(main)
-if DBG then print(">> main .. ", f, msg) end
+-- local f, msg = pcall(main)
+-- if DBG then print(">> main .. ", f, msg) end
 
-final()
+-- final()
 
 
