@@ -8,7 +8,7 @@ local url = "https://github.com/AsianIncest/OC/raw/master/5v2.lua"
 function main()
 	
 	print("")
-	if filesystem.exists(script) then
+	while filesystem.exists(script) do
 		print(">> Script exists .. remove")
 		local a,b = filesystem.remove(script)
 		if a then print(">> File " .. script .. " removed .. ok") end
