@@ -66,6 +66,9 @@ function init() --[[
 	end
 
 	ic = com.inventory_controller
+	
+	local f, msg = pcall(getBat)
+	if DBG then print(">> getBat.. ", f, msg) end
 	-- пауза после инициализации
 	if DBG then os.sleep(5) end
 end
@@ -91,17 +94,15 @@ end
 
 --------------------------------------------------------------------------
 function main()
-	local r, msg = pcall(init)
-	if DBG then print(">> inint .. ", r, msg) end
-	getBat()
-	print(bat_count, bat_total_capacity, bat_max_capacity)
-	print(bat_max_capacity/bat_total_capacity*100,"%")
+	local proc = bat_total_capacity / bat_max_capacity * 100
+	print(proc, "%")
 	os.sleep(10)
 	os.exit()
 	
 end
 
-
+local r, msg = pcall(init)
+if DBG then print(">> inint .. ", r, msg) end
 
 local f, msg = pcall(main)
 if DBG then print(">> main .. ", f, msg) end
