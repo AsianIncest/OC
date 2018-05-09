@@ -148,7 +148,7 @@ function main()--[[
 	--]]
 	local sec = 72
 	local timer1 = os.time()
-	local proc = -1
+	proc = -1
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
 		--[[
@@ -163,7 +163,11 @@ function main()--[[
 			end
 			
 			CLS()
-			gpu.set(1,1,"Заряд: " .. proc .. "%")
+			if proc then
+				gpu.set(1,1, "Заряд: " .. proc .. "%")
+			else
+				gpu.set(1,1, "баг с зарядом")
+			end
 			
 		end
 
