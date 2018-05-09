@@ -4,6 +4,7 @@ Update and run
 
 function rm()
   os.execute('rm 5v2.lua')
+  os.sleep(1)
  end
  
  function go()
