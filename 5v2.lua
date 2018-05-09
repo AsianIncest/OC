@@ -178,9 +178,10 @@ function main()--[[
 			timer1 = os.time()
 		end
 		
-		if os.time - timer2 >= 5 * sec then
+		if os.time() - timer2 >= 5 * sec then
 			local proc = math.floor((bat_total_capacity / bat_max_capacity * 100) + 0.5)
 			print("emkost", proc .. "%")
+			timer2 = os.time()
 		end
 		-- NOOP 5 тиков, чтобы не висло
 		os.sleep(5/20)
