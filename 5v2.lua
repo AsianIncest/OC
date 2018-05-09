@@ -30,7 +30,8 @@ function pattern()--[[
 	--]]
 end
 
-
+local VER = 100
+local REV = 10
 -- ПК
 local computer = 1 
 -- компоненты
@@ -118,7 +119,6 @@ end
 function initBat()--[[
 	Перебор всех батареек и запись в массив
 	--]]
-	all_bat = nil
 	for i = 1,16 do
 		if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
@@ -129,6 +129,8 @@ function initBat()--[[
 				bat_count = bat_count + 1
 				all_bat[bat_count] = bat
 			end
+		else
+			all_bat[bat_count] = nil
 		end
 	end
 end
@@ -146,7 +148,6 @@ function main()--[[
 	--]]
 	local sec = 72
 	local timer1 = os.time()
-	local timer2 = os.time()
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
 		--[[
@@ -156,28 +157,17 @@ function main()--[[
 			getBat()
 			if bat_total_capacity and bat_max_capacity then
 				local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
-			else
-				proc = "БАГ!"
+				gpu.set(1,29, "BTC " .. bat_total_capacity)
+				gpu.set(1,30, "BMC " .. bat_max_capacity)
 			end
 			
 			CLS()
 			gpu.set(1,1,"Заряд:")
 			gpu.set(1,2,"       " .. proc .. "%")
 		end
-		--[[
-			Раз в 30 секунд пересчитываем батарейки
-			--]]
-		if os.time() - timer1 >= 10 * sec then
-			initBat()
-			getBat()
-			CLS()
-			-- сбросим первый таймер чтобы процент перерисовался
-			timer1 = 0
-			gpu.set(1,3, "всего батареек " .. bat_count)
-			
-			
-		end
-		gpu.set(80, 1, "[" .. math.floor((os.time() - timer1)/sec + 0.5) .. "]")
+
+		gpu.set(50,30, "VERSION " .. VER .. "#" .. REV)
+
 		-- NOOP 5 тиков, чтобы не висло
 		os.sleep(5/20)
 	until false
