@@ -102,7 +102,7 @@ function getBat()--[[
 	--]]
 	bat_total_capacity = 0
 	bat_max_capacity = 0
-	for i in #all_bat do
+	for i = 1, #all_bat do
 		bat_total_capacity = bat_total_capacity + bat.charge
 		bat_max_capacity = bat_max_capacity + bat.maxCharge
 	end
