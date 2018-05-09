@@ -52,6 +52,7 @@ local ic
 local DBG = true
 -- сколько батареек
 local bat_count
+local bat_count = 0
 -- текущая ёмкость
 local bat_total_capacity
 -- полная ёмкость
@@ -90,10 +91,10 @@ function init() --[[
 
 	ic = com.inventory_controller
 	
-	local f, msg = pcall(initBat)
-	if DBG then print(">> initBat.. ", f, msg) end
+	--local f, msg = pcall(initBat)
+	--if DBG then print(">> initBat.. ", f, msg) end
 	-- пауза после инициализации
-	if DBG then os.sleep(1) end
+	--if DBG then os.sleep(1) end
 end
 
 --------------------------------------------------------------------------
@@ -141,6 +142,8 @@ function initBat()--[[
 	if DBG then print(">> Wait 2 sec") end
 	if DBG then os.sleep(3) end
 end
+
+init()
 initBat()
 local tmr1 = os.time()
 repeat 
@@ -149,6 +152,9 @@ repeat
 		CLS()
 		print("battery total ", bat_total_capacity)
 		print("battery max ", bat_max_capacity)
+		print("input ", bat.getAverageElectricInput())
+		print("output ", bat.getAverageElectricOutput())
+		
 		tmr1 = os.time()
 	end
 	os.sleep(1/5)
