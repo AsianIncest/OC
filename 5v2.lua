@@ -135,6 +135,7 @@ function initBat()--[[
 			all_bat[i] = nil
 		end
 	end
+	
 	if DBG then print(">> Итог: " .. bat_count .. " батареек") end
 	if DBG then print(">> Wait 2 sec") end
 	if DBG then os.sleep(3) end
