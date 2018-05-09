@@ -43,7 +43,7 @@ local bat_max_capacity = 0
 function init() --[[
 	Подключает компоненты и выполняет настройку 
 	--]]
-	computer = require("computer");
+	computer = require("computer")
 	com = require("component")
 	gpu = com.gpu
 	sides = require('sides')
