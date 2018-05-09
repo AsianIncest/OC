@@ -107,7 +107,6 @@ end
 function getBat()--[[
 	Считывает инфу по батарейкам
 	--]]
-	initBat()
 	bat_total_capacity = 0
 	bat_max_capacity = 0
 	for i = 1, #all_bat do
@@ -120,20 +119,25 @@ end
 function initBat()--[[
 	Перебор всех батареек и запись в массив
 	--]]
+	if DBG then print(">> Проверяю слоты в буфере..") end
 	for i = 1,16 do
-		if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
 		if bat then
 			-- для другого буфера надо будет поправить ..
 			if bat.name == "IC2:itemBatLamaCrystal" then
+				if DBG then print(">> Слот [", i, "]: IC2:itemBatLamaCrystal") end
 				bat_count = bat_count + 1
 				all_bat[bat_count] = bat
 			end
 		else
-			all_bat[bat_count] = nil
+			if DBG then print(">> Слот [", i, "]: ---------------") end
+			all_bat[i] = nil
 		end
 	end
+	if DBG then print(">> Итог: " .. bat_count .. " батареек") end
+	if DBG then print(">> Wait 2 sec") end
+	if DBG then os.sleep(3) end
 end
 
 --------------------------------------------------------------------------

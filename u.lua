@@ -15,7 +15,7 @@ function main()
 	end
 	print('>> Request to GitHub ..')
 	a,b = os.execute('wget ' .. url)
-	if a then print(">> Download .. ok")
+	if a then print(">> Download .. ok") end
 	print(">> Run")
 	os.execute(script)
 end
