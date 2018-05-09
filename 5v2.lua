@@ -79,7 +79,7 @@ function getBat()--[[
 		if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
-		if not bat then
+		if bat then
 			if bat.name == "IC2:itemBatLamaCrystal" then
 				bat_count = bat_count + 1
 				bat_total_capacity = bat_total_capacity + bat.charge
