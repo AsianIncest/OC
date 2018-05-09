@@ -162,6 +162,8 @@ function main()--[[
 			--]]
 		if os.time() - timer1 >= 2 * sec then
 			getBat()
+			if DBG then print("BTC " .. bat_total_capacity) end
+			if DBG then print("BTM " .. bat_max_capacity) end
 			if bat_total_capacity and bat_max_capacity then
 				local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
 				gpu.set(1,29, "BTC " .. bat_total_capacity)
