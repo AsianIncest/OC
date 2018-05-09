@@ -163,6 +163,7 @@ function main()--[[
 			end
 			
 			CLS()
+			assert(type(proc) == "number")
 			if proc then
 				gpu.set(1,1, "Заряд: " .. proc .. "%")
 			else
