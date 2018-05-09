@@ -31,7 +31,7 @@ function pattern()--[[
 end
 
 local VER = 100
-local REV = 10
+local REV = 12
 -- ПК
 local computer = 1 
 -- компоненты
@@ -149,7 +149,7 @@ function main()--[[
 	--]]
 	local sec = 72
 	local timer1 = os.time()
-	proc = -1
+
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
 		--[[
