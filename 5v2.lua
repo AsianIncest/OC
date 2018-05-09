@@ -51,7 +51,6 @@ local ic
 -- ружим отладки
 local DBG = true
 -- сколько батареек
-local bat_count
 local bat_count = 0
 -- текущая ёмкость
 local bat_total_capacity
