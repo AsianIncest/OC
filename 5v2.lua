@@ -120,7 +120,7 @@ function initBat()--[[
 	--]]
 	all_bat = {}
 	for i = 1,16 do
-		--if DBG then print(">> ", i) end
+		if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
 		if bat then
@@ -154,7 +154,12 @@ function main()--[[
 			--]]
 		if os.time() - timer1 >= 2 * sec then
 			getBat()
-			local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
+			if bat_total_capacity and bat_max_capacity then
+				local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
+			else
+				proc = "БАГ!"
+			end
+			
 			CLS()
 			gpu.set(1,1,"Заряд:")
 			gpu.set(1,2,"       " .. proc .. "%")
@@ -173,6 +178,8 @@ function main()--[[
 			
 		end
 		gpu.set(80, 1, "[" .. math.floor((os.time() - timer1)/sec + 0.5) .. "]")
+		-- NOOP 5 тиков, чтобы не висло
+		os.sleep(5/20)
 	until false
 	os.exit()
 	
