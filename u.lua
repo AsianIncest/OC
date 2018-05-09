@@ -7,6 +7,7 @@ function rm()
  end
  
  function go()
+  os.execute('wget https://github.com/AsianIncest/OC/raw/master/5v2.lua')
   os.execute('5v2.lua')
  end
  
