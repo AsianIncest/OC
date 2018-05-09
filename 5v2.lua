@@ -93,7 +93,7 @@ function init() --[[
 	local f, msg = pcall(initBat)
 	if DBG then print(">> initBat.. ", f, msg) end
 	-- пауза после инициализации
-	if DBG then os.sleep(5) end
+	if DBG then os.sleep(1) end
 end
 
 --------------------------------------------------------------------------
