@@ -172,7 +172,7 @@ function main()--[[
 			
 			
 		end
-		gpu.set(80, 1, math.floor((os.time() - timer1)/sec + 0.5))
+		gpu.set(80, 1, toString(math.floor((os.time() - timer1)/sec + 0.5)))
 	until false
 	os.exit()
 	
