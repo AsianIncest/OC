@@ -107,6 +107,7 @@ end
 function getBat()--[[
 	Считывает инфу по батарейкам
 	--]]
+	initBat()
 	bat_total_capacity = 0
 	bat_max_capacity = 0
 	for i = 1, #all_bat do
