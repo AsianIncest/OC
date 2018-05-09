@@ -145,7 +145,8 @@ function main()--[[
 	главная функция типа как в С
 	--]]
 	local sec = 72
-	local timer1 = os.time(), timer2 = os.time()
+	local timer1 = os.time()
+	local timer2 = os.time()
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
 		--[[
