@@ -105,6 +105,6 @@ end
 local f, msg = pcall(main)
 if DBG then print(">> main .. ", f, msg) end
 
-
+print(msg)
 
 
