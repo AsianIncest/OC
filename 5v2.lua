@@ -16,6 +16,12 @@
   == 100 ==
     Пробуем собрать рабочую тему из старых кусков.
     Стараемся использовать функции.
+	
+  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+  $$$$$$$$$$$$$$$$$$$$$$$$  ИДЕИ   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	Если в слоте буфера есть незаряженный предмет, включить генерацию
+	до полной его зарядки)
 --]]
 
 --------------------------------------------------------------------------
@@ -103,8 +109,8 @@ function getBat()--[[
 	bat_total_capacity = 0
 	bat_max_capacity = 0
 	for i = 1, #all_bat do
-		bat_total_capacity = bat_total_capacity + bat.charge
-		bat_max_capacity = bat_max_capacity + bat.maxCharge
+		bat_total_capacity = bat_total_capacity + all_bat[i].charge
+		bat_max_capacity = bat_max_capacity + all_bat[i].maxCharge
 	end
 end
 
