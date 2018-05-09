@@ -99,9 +99,8 @@ end
 function getBat()--[[
 	Считывает инфу по батарейкам
 	--]]
-
 	for i = 1,16 do
-		if DBG then print(">> ", i) end
+		--if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
 		if bat then
@@ -128,7 +127,8 @@ function main()--[[
 	--]]
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
-		local proc = bat_total_capacity / bat_max_capacity * 100
+		getBat()
+		local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
 		CLS()
 		gpu.set(1,1,"Заряд:")
 		gpu.set(1,2,"       " .. proc .. "%")
