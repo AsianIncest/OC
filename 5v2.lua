@@ -77,7 +77,7 @@ function init() --[[
 		if DBG then print(address, componentType) end
 		if string.find(componentType,'battery') ~= nil then
 			bat = com.proxy(address)
-			break
+			-- break
 		end
 	end
 
@@ -171,7 +171,8 @@ function main()--[[
 			end
 			
 			CLS()
-			assert(type(proc) == "number")
+			--assert(type(proc) == "number")
+			if DBG then print(">> Type proc: ", type(proc)) end
 			if proc then
 				gpu.set(1,1, "Заряд: " .. proc .. "%")
 			else
