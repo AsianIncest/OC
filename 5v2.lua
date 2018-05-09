@@ -121,14 +121,14 @@ function initBat()--[[
 	--]]
 	if DBG then print(">> Проверяю слоты в буфере..") end
 	for i = 1,16 do
-		local bat = ic.getStackInSlot(sides.top, i)
+		local _bat = ic.getStackInSlot(sides.top, i)
 		-- если слот пустой bat=nil !
-		if bat then
+		if _bat then
 			-- для другого буфера надо будет поправить ..
-			if bat.name == "IC2:itemBatLamaCrystal" then
+			if _bat.name == "IC2:itemBatLamaCrystal" then
 				if DBG then print(">> Слот [", i, "]: IC2:itemBatLamaCrystal") end
 				bat_count = bat_count + 1
-				all_bat[bat_count] = bat
+				all_bat[bat_count] = _bat
 			end
 		else
 			if DBG then print(">> Слот [", i, "]: ---------------") end
