@@ -116,8 +116,9 @@ end
 
 --------------------------------------------------------------------------
 function initBat()--[[
-
+	Перебор всех батареек и запись в массив
 	--]]
+	all_bat = {}
 	for i = 1,16 do
 		--if DBG then print(">> ", i) end
 		local bat = ic.getStackInSlot(sides.top, i)
@@ -143,14 +144,34 @@ end
 function main()--[[
 	главная функция типа как в С
 	--]]
+	local sec = 72
+	local timer1 = os.time(), timer2 = os.time()
 	if DBG then os.sleep(5) end -- пауза если отладка ВКЛ
 	repeat
-		getBat()
-		local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
-		CLS()
-		gpu.set(1,1,"Заряд:")
-		gpu.set(1,2,"       " .. proc .. "%")
-		os.sleep(2)
+		--[[
+			Раз в 2 секунды считываем текущий заряд и выводим
+			--]]
+		if os.time() - timer1 >= 2 * sec then
+			getBat()
+			local proc = math.floor(bat_total_capacity / bat_max_capacity * 100 + 0.5)
+			CLS()
+			gpu.set(1,1,"Заряд:")
+			gpu.set(1,2,"       " .. proc .. "%")
+		end
+		--[[
+			Раз в 30 секунд пересчитываем батарейки
+			--]]
+		if os.time() - timer1 >= 30 * sec then
+			initBat()
+			getBat()
+			CLS()
+			-- сбросим первый таймер чтобы процент перерисовался
+			timer1 = 0
+			gpu.set(1,3, "всего батареек " .. bat_count)
+			
+			
+		end
+		gpu.set(80, 1, math.floor((os.time() - timer1)/sec + 0.5))
 	until false
 	os.exit()
 	
