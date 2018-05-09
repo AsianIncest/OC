@@ -35,27 +35,27 @@ local REV = 12
 -- ПК
 local computer = 1 
 -- компоненты
-local com = 1
+local com
 -- карта
-local gpu = 1
+local gpu
 -- стороны (прим. sides.top, sides.bottom, sides.south)
-local sides = 1 
+local sides
 -- красный куб
-local red = 1
+local red
 -- буферило
-local bat = 1
+local bat
 -- включить генератор
-local genOn = 1
+local genOn
 -- контролёр инвентаря
-local ic = 1
+local ic
 -- ружим отладки
 local DBG = true
 -- сколько батареек
-local bat_count = 0
+local bat_count
 -- текущая ёмкость
-local bat_total_capacity = 0
+local bat_total_capacity
 -- полная ёмкость
-local bat_max_capacity = 0
+local bat_max_capacity
 -- таблица с батарейками
 local all_bat = {}
 local sX, sY = 100, 30
